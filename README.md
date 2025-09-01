@@ -26,4 +26,5 @@ Bash
 
 ros2 run cartographer_ros cartographer_assets_writer -pbstream_filename ~/my_map.pbstream -map_filestem ~/my_map
 
-態が保存できるはずです。
+
+状態が保存できる
