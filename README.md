@@ -1,30 +1,25 @@
 北陽lidar 30lxのipを固定する　
 アドレス=192.168.0.15 ネットマスク=255.255.255.0 ゲートウェイ=192.168.0.1
 
-Lidar開始コマンド
-source ~/ros2_ws/install/setup.bash && ros2 launch urg_node2 urg_node2.launch.py
-Cartographerの実行コマンド
-source ~/ros2_ws/install/setup.bash && ros2 launch my_slam_config slam_only_fast.launch.py
+参考サイト
+https://qiita.com/tomtomApp/items/8d29a2dd00e60dade9e8
+https://qiita.com/porizou1/items/4ddeb5a0aa6c62a4c294
 
-ステップ1：SLAMの状態をファイルに保存する
-SLAMを実行して地図が完成したら、3つ目の新しいターミナルを開き、以下のコマンドを順番に実行します。
+変更点
+launchファイルの所々の名前の変更
+setupファイルの追記変更（launchとconfigの追記のため）
+luaファイルは上記のサイトを参考に高速化とコートサイズへの最適化の変更
 
-    軌跡の記録を終了するコマンド
-    Bash
+必要なもの
+sudo apt install ros-humble-cartographer 
+sudo apt install ros-humble-cartographer-rviz
+地図制作とrviz2で使用
 
-ros2 service call /finish_trajectory cartographer_ros_msgs/srv/FinishTrajectory "{trajectory_id: 0}"
+sudo apt install ros-humble-navigation2
+sudo apt install ros-humble-nav2-bringup
+地図の保存
 
-現在の状態をファイルに書き出すコマンド
-Bash
-
-    ros2 service call /write_state cartographer_ros_msgs/srv/WriteState "{filename: '${HOME}/my_map.pbstream', include_unfinished_submaps: true}"
-
-ステップ2：状態ファイルから地図画像を生成する
-
-ステップ1が完了したら、SLAMを停止して構いません。新しいターミナルで以下のコマンドを実行します。
-Bash
-
-ros2 run cartographer_ros cartographer_assets_writer -pbstream_filename ~/my_map.pbstream -map_filestem ~/my_map
-
-
-状態が保存できる
+起動
+ros2 launch my_robot_cartographer hokuyo_cartographer.launch.py
+地図保存
+ros2 run nav2_map_server map_saver_cli -f ~/map
