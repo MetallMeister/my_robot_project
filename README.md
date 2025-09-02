@@ -164,37 +164,6 @@ my_robot_cartographer/
 └── setup.py                     # インストール設定
 ```
 
-### 5.2. package.xml
-
-`rosdep` が正しく動作するために、`package.xml` に依存パッケージを記述することが重要です。
-
-```xml
-<?xml version="1.0"?>
-<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
-<package format="3">
-  <name>my_robot_cartographer</name>
-  <version>0.0.0</version>
-  <description>Cartographer SLAM package for Hokuyo LiDAR</description>
-  <maintainer email="your@email.com">Your Name</maintainer>
-  <license>Apache-2.0</license>
-
-  <buildtool_depend>ament_python</buildtool_depend>
-
-  <exec_depend>cartographer_ros</exec_depend>
-  <exec_depend>urg_node2</exec_depend>
-  <exec_depend>tf2_ros</exec_depend>
-  <exec_depend>rviz2</exec_depend>
-
-  <test_depend>ament_copyright</test_depend>
-  <test_depend>ament_flake8</test_depend>
-  <test_depend>ament_pep257</test_depend>
-  <test_depend>python3-pytest</test_depend>
-
-  <export>
-    <build_type>ament_python</build_type>
-  </export>
-</package>
-```
 
 > **【重要項目】**: `exec_depend` タグで、このパッケージの実行時に必要な `cartographer_ros` や `urg_node2` などを明記します。これにより `rosdep` が自動で依存関係を解決してくれます。
 
